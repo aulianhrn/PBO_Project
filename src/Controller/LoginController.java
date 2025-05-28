@@ -5,6 +5,7 @@
 package Controller;
 import View.ViewLogin;
 import Model.CekLogin;
+import javax.swing.*;
 /**
  *
  * @author HP
@@ -13,14 +14,22 @@ public class LoginController {
     private ViewLogin login;
     private CekLogin cek;
     
-    public LoginController(ViewLogin login, CekLogin cek) {
+    public LoginController(ViewLogin login){
         this.login = login;
-        this.cek = cek;
-    }
-    
-    public void handleLogin(){
-        String username = login.inputUsername.getText();
-        char[] passwordChars = login.passwordField.getPassword();
-        String password = new String(passwordChars);
+        this.cek = new CekLogin();
+        
+        login.loginButton.addActionListener(e -> {
+            String username = login.getUsername();
+            String password = login.getPassword();
+
+            boolean valid = cek.login(username, password);
+
+            if (valid) {
+                JOptionPane.showMessageDialog(login, "Login berhasil!");
+                // lanjut ke menu utama, misalnya
+            } else {
+                JOptionPane.showMessageDialog(login, "Login gagal. Cek username/password.");
+            }
+        });
     }
 }
