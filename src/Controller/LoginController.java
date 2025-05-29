@@ -6,11 +6,12 @@ package Controller;
 import View.ViewLogin;
 import Model.CekLogin;
 import javax.swing.*;
+import View.Transaction.ViewTransaction;
 /**
  *
  * @author HP
  */
-public class LoginController {
+public class LoginController {    
     private ViewLogin login;
     private CekLogin cek;
     
@@ -25,7 +26,11 @@ public class LoginController {
             boolean valid = cek.login(username, password);
 
             if (valid) {
+                int userId = cek.getLoginId();
                 JOptionPane.showMessageDialog(login, "Login berhasil!");
+                new ViewTransaction(userId).setVisible(true);
+                login.dispose();
+
                 // lanjut ke menu utama, misalnya
             } else {
                 JOptionPane.showMessageDialog(login, "Login gagal. Cek username/password.");

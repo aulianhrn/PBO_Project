@@ -5,13 +5,19 @@
 package Main;
 
 import java.sql.Connection;
-import Model.Connector;
+import View.ViewLogin;
+import Controller.LoginController;
+import Model.CekLogin;
 /**
  *
  * @author HP
  */
 public class Main {
     public static void main(String[] args) {
-        Connection conn = Connector.connect();
+        ViewLogin view = new ViewLogin();
+        CekLogin model = new CekLogin(); 
+        new LoginController(view);
+        
+        view.setVisible(true);
     }
 }

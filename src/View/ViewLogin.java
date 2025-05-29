@@ -4,20 +4,25 @@
  */
 package View;
 import Controller.LoginController;
-import Model.CekLogin;
-
 /**
  *
  * @author HP
  */
 public class ViewLogin extends javax.swing.JFrame {
-    private CekLogin cek;    // Model
-    private LoginController action;
 
+    /**
+     * Creates new form ViewLogin
+     */
     public ViewLogin() {
         initComponents();
-        cek = new CekLogin();
-        action = new LoginController();
+    }
+    
+    public String getUsername() {
+        return inputUsername.getText();
+    }
+
+    public String getPassword() {
+        return new String(inputPassword.getPassword());
     }
 
     /**
@@ -121,7 +126,7 @@ public class ViewLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_inputUsernameActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        action.handleLogin();
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -162,7 +167,9 @@ public class ViewLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewLogin().setVisible(true);
+                ViewLogin view = new ViewLogin();
+                view.setVisible(true);
+                new LoginController(view);
             }
         });
 
@@ -174,6 +181,6 @@ public class ViewLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JButton loginButton;
+    public javax.swing.JButton loginButton;
     // End of variables declaration//GEN-END:variables
 }

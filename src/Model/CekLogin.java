@@ -11,37 +11,41 @@ import java.sql.*;
  */
 public class CekLogin {
     Connection conn; //ambil connector
-    
-    private static String username;
-    private static String password;
-    
+    int loginId; //nyimpen id yang berhasil login
     
     public CekLogin() {
         conn = Connector.connect();
     }
     
     public boolean login(String username, String password) {
-        boolean valid = false;
+        boolean valid = false;        
 
         try {
             String query = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
-            statement.setString(2, username);
-            
-            ResultSet resultSet = statement.executeQuery();
-            
-            if (resultSet.next()) {
-                valid = true;
-            }
+            statement.setString(2, password);
+            ResultSet rs = statement.executeQuery();
 
-            resultSet.close();
+//            boolean result = rs.next(); // true jika data ditemukan
+                        
+            if (rs.next()) {
+                loginId = rs.getInt("id"); // sesuaikan nama kolomnya di DB
+                rs.close();
+                statement.close();
+                return true;
+            }            
+            
+            rs.close();
             statement.close();
-
         } catch (SQLException e) {
             System.out.println("Login gagal: " + e.getMessage());
         }
 
-        return valid;
+        return false;
+    }
+    
+    public int getLoginId() {
+        return loginId;
     }
 }
