@@ -169,10 +169,10 @@ public class ViewLogin extends javax.swing.JFrame {
             public void run() {
                 ViewLogin view = new ViewLogin();
                 view.setVisible(true);
+                
                 new LoginController(view);
             }
         });
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
