@@ -7,7 +7,10 @@ package Main;
 import java.sql.Connection;
 import View.ViewLogin;
 import Controller.LoginController;
+import Controller.RegisterController;
 import Model.CekLogin;
+import Model.CekRegister;
+import View.ViewRegister;
 /**
  *
  * @author HP
@@ -15,9 +18,10 @@ import Model.CekLogin;
 public class Main {
     public static void main(String[] args) {
         ViewLogin view = new ViewLogin();
-        CekLogin model = new CekLogin(); 
         new LoginController(view);
-        
         view.setVisible(true);
+//           ViewRegister viewRegister = new ViewRegister();
+//           RegisterController controller = new RegisterController(viewRegister);
+//        viewRegister.setVisible(true);
     }
 }

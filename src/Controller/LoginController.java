@@ -4,6 +4,7 @@
  */
 package Controller;
 import View.ViewLogin;
+import View.ViewRegister;
 import Model.CekLogin;
 import javax.swing.*;
 import View.Transaction.ViewTransaction;
@@ -19,9 +20,11 @@ public class LoginController {
         this.login = login;
         this.cek = new CekLogin();
         
-        login.loginButton.addActionListener(e -> {
-            String username = login.getUsername();
-            String password = login.getPassword();
+        login.getLoginButton().addActionListener(e -> {
+//            String username = login.getInputUsername();
+//            String password = login.getPassword();
+            String username = login.getInputUsername().getText();
+            String password = new String(login.getInputPassword().getPassword());
 
             boolean valid = cek.login(username, password);
 
@@ -36,5 +39,15 @@ public class LoginController {
                 JOptionPane.showMessageDialog(login, "Login gagal. Cek username/password.");
             }
         });
+        
+        login.getRegistButton().addActionListener(e -> {
+            goToRegist();
+        });
+    }
+    private void goToRegist() {
+        login.dispose();
+        ViewRegister registerView = new ViewRegister();
+        new RegisterController(registerView);
+        registerView.setVisible(true);
     }
 }

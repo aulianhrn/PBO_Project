@@ -143,13 +143,15 @@ public class ControllerTransaction {
 
     public void deleteTransaksi(Integer baris) {
         // Mengambil id dan nama berdasarkan baris yang dipilih
-        Integer id = (int) halamanTable.getTableTransaction().getValueAt(baris, 0);
-        String nama = halamanTable.getTableTransaction().getValueAt(baris, 1).toString();
+        ModelTabelTransaction model = (ModelTabelTransaction) halamanTable.getTableTransaction().getModel();
+        Integer id = model.getTransactionId(baris);
+        
+        String nama = halamanTable.getTableTransaction().getValueAt(baris, 3).toString();
 
         // Membuat Pop-Up untuk mengonfirmasi apakah ingin menghapus data
         int input = JOptionPane.showConfirmDialog(
                 null,
-                "Hapus ?",
+                "Hapus transaksi?" ,
                 "Hapus Transaksi",
                 JOptionPane.YES_NO_OPTION
         );
@@ -164,6 +166,7 @@ public class ControllerTransaction {
 
             // Memanggil method "showAllMahasiswa()" untuk merefresh table.
             showAllTransaction(userId);
+            showSummary(userId);
         }
     }
 }
