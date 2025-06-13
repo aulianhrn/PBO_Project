@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author Lenovo
  */
-public class UserDAO {
+public class UserDAO implements InterfaceUserDAO {
     private Connection conn;
     
     public UserDAO() {
@@ -21,6 +21,7 @@ public class UserDAO {
         
     }
     
+    @Override
     public boolean isUsernameExists(String username) {
         String query = "SELECT * FROM users WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -34,6 +35,7 @@ public class UserDAO {
         }
     }
     
+    @Override
     public boolean registerUser(String username, String password) {
         String query = "INSERT INTO users (username, password) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -47,6 +49,7 @@ public class UserDAO {
         }
     }
     
+    @Override
      public int validateUser(String username, String password) {
         String query = "SELECT id FROM users WHERE username = ? AND password = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {

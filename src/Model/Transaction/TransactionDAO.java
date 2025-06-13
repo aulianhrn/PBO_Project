@@ -14,9 +14,10 @@ import java.util.Date;
  *
  * @author HP
  */
-public class TransactionDAO {
+public class TransactionDAO implements InterfaceDAOTransaction {
     private int userId;
-            
+       
+    @Override
     public void insert(ModelTransaction transaction, int userId) {
         this.userId = userId;
         try{
@@ -37,6 +38,7 @@ public class TransactionDAO {
         }
     }
     
+    @Override
     public void update(ModelTransaction transaction) {
         try {
             // Perintah query disimpan ke dalam variabel "query"
@@ -57,7 +59,8 @@ public class TransactionDAO {
             System.out.println("update Failed! (" + e.getMessage() + ")");
         }
     }
-       
+    
+    @Override
     public void delete (int id) {
         try {
             // Perintah query disimpan ke dalam variabel "query"
@@ -75,6 +78,7 @@ public class TransactionDAO {
         }
     }
     
+    @Override
     public List<ModelTransaction> getAll(int userId) {
         this.userId = userId;
         

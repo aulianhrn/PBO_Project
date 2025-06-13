@@ -76,8 +76,7 @@ public class ControllerTransaction {
         halamanTable.setSummary(pemasukkan, pengeluaran, sisa);
     }
     
-        public void exportTransactionData() {
-        // Memastikan halamanTable tidak null
+    public void exportTransactionData() {
         if (halamanTable == null) {
             JOptionPane.showMessageDialog(null, "Error: View Transaction belum diinisialisasi untuk ekspor.", "Ekspor Gagal", JOptionPane.ERROR_MESSAGE);
             return;
@@ -131,9 +130,8 @@ public class ControllerTransaction {
                             fw.append(",");
                         }
                     }
-                    fw.append("\n"); // Baris baru setelah setiap baris data
+                    fw.append("\n");
                 }
-
                 JOptionPane.showMessageDialog(halamanTable, "Data transaksi berhasil diekspor ke:\n" + fileToSave.getAbsolutePath(), "Ekspor Berhasil", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {                
