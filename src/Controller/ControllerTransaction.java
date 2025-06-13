@@ -7,9 +7,11 @@ package Controller;
 import Model.Transaction.ModelTabelTransaction;
 import Model.Transaction.ModelTransaction;
 import Model.Transaction.TransactionDAO;
+import Model.Transaction.FilteredTransaction;
 import View.Transaction.ViewTransaction;
 import View.Transaction.EditTransaction;
 import View.Transaction.InputTransaction;
+import View.Transaction.ViewFilterCategory;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
@@ -26,9 +28,11 @@ import javax.swing.table.TableModel;
  */
 public class ControllerTransaction {
     int userId;
+    String category;
     ViewTransaction halamanTable;
     EditTransaction halamanEdit;
     InputTransaction halamanInput;
+    ViewFilterCategory halamanFilter;
     
     TransactionDAO daoTransaction;
     List<ModelTransaction> daftarTransaksi;
@@ -47,6 +51,33 @@ public class ControllerTransaction {
     public ControllerTransaction(EditTransaction halamanEdit){
         this.halamanEdit = halamanEdit;
         daoTransaction = new TransactionDAO();
+    }
+    
+    public ControllerTransaction(ViewFilterCategory halamanFilter){
+        this.halamanFilter = halamanFilter;
+        daoTransaction = new TransactionDAO();
+    }
+    
+    public void ShowFiltered(int userId, String category) {
+        this.userId = userId;
+        this.category = category;
+
+        // Ambil data transaksi yang difilter
+        FilteredTransaction filteredTransaction = new FilteredTransaction();
+        List<ModelTransaction> filteredTransactions = filteredTransaction.getByCategory(userId, category);
+
+        // Buat model tabel
+        ModelTabelTransaction tableModel = new ModelTabelTransaction(filteredTransactions);
+        
+        if (halamanFilter != null) {
+            halamanFilter.getTableTransaction().setModel(tableModel);
+            if (filteredTransactions.isEmpty()) {
+                JOptionPane.showMessageDialog(halamanFilter, "Tidak ada transaksi dengan kategori: " + category, "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, 
+                "Error: Halaman filter tidak diinisialisasi.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public void showAllTransaction(int userId) {
@@ -156,26 +187,22 @@ public class ControllerTransaction {
             if ("".equals(category) || date == null || "".equals(description) || amount <= 0) {
                 throw new Exception("Data tidak boleh kosong!");
             }
-                        
-            
+                                    
             transaksiBaru.setCategory(category);
             transaksiBaru.setDate(date);
             transaksiBaru.setDescription(description);
             transaksiBaru.setAmount(amount);
             
-            // Memasukkan "mahasiswa baru" ke dalam database.
             daoTransaction.insert(transaksiBaru, userId);
             
-            // Menampilkan pop-up ketika berhasil mengedit data
             JOptionPane.showMessageDialog(null, "Transaksi baru berhasil ditambahkan.");
             
-            // Terakhir, program akan pindah ke halaman Table Mahasiswa()
             halamanInput.dispose();
             new ViewTransaction(userId).setVisible(true);
         } catch (Exception e) {
-            // Menampilkan pop-up ketika terjadi error
+
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-        }
+        } 
     }
     
     public void editTransaksi(int id, int userId) {
@@ -189,7 +216,7 @@ public class ControllerTransaction {
             String description = halamanEdit.getInputDescription();
             int amount = halamanEdit.getInputAmount();
 
-            if ("".equals(category) || date == null || "".equals(description) || amount <= 0) {
+            if ("".equals(category) || date == null || "".equals(description)) {
                 throw new Exception("Data tidak boleh kosong!");
             }
             
